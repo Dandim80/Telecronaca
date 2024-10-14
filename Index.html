@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -36,11 +36,11 @@
 
             <label for="condizioni">Condizioni del campo:</label>
             <select id="condizioni">
-                <option>Pesante, difficile giocare</option>
-                <option>In buone condizioni, ma con qualche irregolarità</option>
-                <option>Perfette condizioni, grazie al terreno sintetico</option>
-                <option>Sdrucciolevole a causa della pioggia</option>
-                <option>Un po' secco, ma comunque praticabile</option>
+                <option>Il terreno era pesante e fangoso, rendendo difficile il controllo del pallone.</option>
+                <option>Il campo si presentava in buone condizioni, anche se con qualche irregolarità qua e là.</option>
+                <option>Perfette condizioni di gioco grazie al manto sintetico che ha permesso azioni fluide.</option>
+                <option>Il terreno era scivoloso a causa della pioggia, complicando le giocate rapide.</option>
+                <option>Campo leggermente secco, ma comunque adatto per un buon ritmo di gioco.</option>
             </select>
 
             <label for="commento">Commento finale:</label>
@@ -98,11 +98,11 @@
 
             let risultatoFinale = '';
             if (vittorieA > vittorieB) {
-                risultatoFinale = `${squadraA} è la squadra vincente.`;
+                risultatoFinale = `${squadraA} ha vinto la partita.`;
             } else if (vittorieB > vittorieA) {
-                risultatoFinale = `${squadraB} è la squadra vincente.`;
+                risultatoFinale = `${squadraB} ha vinto la partita.`;
             } else {
-                risultatoFinale = `La partita è terminata in parità complessiva.`;
+                risultatoFinale = `La partita tra ${squadraA} e ${squadraB} è finita in parità complessiva.`;
             }
 
             const telecronaca = `
