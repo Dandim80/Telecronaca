@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecronaca Calcistica Esordienti</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        label, select, textarea, input { display: block; margin: 10px 0; width: 100%; }
+        .container { max-width: 600px; margin: auto; }
+        .result { background-color: #ecf0f1; padding: 20px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Generatore di Telecronaca Calcistica Esordienti</h2>
+        <form id="telecronacaForm">
+            <label for="tempi">Numero di tempi giocati:</label>
+            <input type="number" id="tempi" min="1" max="3" required>
+
+            <label for="squadraA">Squadra A:</label>
+            <input type="text" id="squadraA" required>
+
+            <label for="squadraB">Squadra B:</label>
+            <input type="text" id="squadraB" required>
+
+            <label for="luogo">Luogo della partita:</label>
+            <input type="text" id="luogo" required>
+
+            <label for="risultati">Risultati dei tempi (es. 1-0, 0-1, 2-2):</label>
+            <textarea id="risultati" placeholder="Inserisci i risultati separati da virgola, es.: 1-0, 0-1, 2-2" required></textarea>
+
+            <label for="marcatori">Marcatori Altair per ogni tempo (es. Tempo 1: Mario al 15', Tempo 2: Luca al 30'):</label>
+            <textarea id="marcatori" placeholder="Inserisci i marcatori separati per tempo, es.: Tempo 1: Mario al 15', Tempo 2: Luca al 30'" required></textarea>
+
+            <label for="condizioni">Condizioni del campo:</label>
+            <select id="condizioni">
+                <option>Pesante, difficile giocare</option>
+                <option>In buone condizioni, ma con qualche irregolarità</option>
+                <option>Perfette condizioni, grazie al terreno sintetico</option>
+                <option>Sdrucciolevole a causa della pioggia</option>
+                <option>Un po' secco, ma comunque praticabile</option>
+            </select>
+
+            <label for="commento">Commento finale:</label>
+            <select id="commento">
+                <option>Ottima prestazione di entrambe le squadre, che hanno lottato fino alla fine senza mai arrendersi.</option>
+                <option>I ragazzi hanno giocato con entusiasmo e determinazione, dimostrando una crescita costante.</option>
+                <option>Una partita combattuta che ha visto belle giocate e ottime azioni corali.</option>
+                <option>Nonostante la sconfitta, ci sono stati momenti di buon gioco e grande spirito di squadra.</option>
+                <option>È stata una partita dura, ma i ragazzi non hanno mai mollato.</option>
+                <option>Una giornata che ha insegnato il valore del gioco di squadra e della determinazione.</option>
+                <option>Il risultato non rende giustizia all'impegno dimostrato da tutti i giocatori in campo.</option>
+                <option>Entrambe le squadre hanno mostrato il loro potenziale, con belle giocate e azioni veloci.</option>
+                <option>Una vittoria meritata per chi ha saputo sfruttare al meglio le occasioni.</option>
+                <option>Partita equilibrata, con tanti spunti di crescita per il futuro.</option>
+            </select>
+
+            <button type="button" onclick="generaTelecronaca()">Genera Telecronaca</button>
+        </form>
+
+        <div id="output" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function generaTelecronaca() {
+            const tempi = document.getElementById("tempi").value;
+            const squadraA = document.getElementById("squadraA").value;
+            const squadraB = document.getElementById("squadraB").value;
+            const luogo = document.getElementById("luogo").value;
+            const risultati = document.getElementById("risultati").value.split(',');
+            const marcatori = document.getElementById("marcatori").value.split(',').map(item => item.trim());
+            const condizioni = document.getElementById("condizioni").value;
+            const commento = document.getElementById("commento").value;
+
+            let vittorieA = 0, vittorieB = 0, pareggi = 0;
+            let risultatiDettagliati = '';
+
+            risultati.forEach((punteggio, index) => {
+                const [golA, golB] = punteggio.trim().split('-').map(Number);
+                let esitoTempo = `Tempo ${index + 1}: ${squadraA} ${golA} - ${golB} ${squadraB}`;
+
+                if (golA > golB) {
+                    vittorieA++;
+                    esitoTempo += ` (Vittoria ${squadraA})`;
+                } else if (golB > golA) {
+                    vittorieB++;
+                    esitoTempo += ` (Vittoria ${squadraB})`;
+                } else {
+                    pareggi++;
+                    esitoTempo += ` (Pareggio)`;
+                }
+
+                esitoTempo += `<br><strong>Marcatori Altair:</strong> ${marcatori[index] || "Nessuno"}<br><br>`;
+                risultatiDettagliati += esitoTempo;
+            });
+
+            let risultatoFinale = '';
+            if (vittorieA > vittorieB) {
+                risultatoFinale = `${squadraA} è la squadra vincente.`;
+            } else if (vittorieB > vittorieA) {
+                risultatoFinale = `${squadraB} è la squadra vincente.`;
+            } else {
+                risultatoFinale = `La partita è terminata in parità complessiva.`;
+            }
+
+            const telecronaca = `
+                Oggi si è giocata la partita tra <strong>${squadraA}</strong> e <strong>${squadraB}</strong> presso <strong>${luogo}</strong>. 
+                La partita si è svolta su un campo <strong>${condizioni}</strong>.<br><br>
+                
+                ${risultatiDettagliati}
+                
+                <strong>Risultato complessivo:</strong> ${squadraA} ${vittorieA}V - ${pareggi}P - ${vittorieB}V ${squadraB}<br>
+                <strong>${risultatoFinale}</strong><br><br>
+                
+                <strong>Commento finale:</strong> ${commento}
+            `;
+
+            document.getElementById("output").innerHTML = telecronaca;
+            document.getElementById("output").style.display = "block";
+        }
+    </script>
+</body>
+</html>
